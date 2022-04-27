@@ -1,0 +1,1 @@
+debian/hooks/*	/lib/dhcpcd/dhcpcd-hooks/

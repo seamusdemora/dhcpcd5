@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--with-hooks="wpa_supplicant" \
+		--mandir=/usr/share/man \
+		--dbdir=/var/lib/dhcpcd \
+		--libexecdir=/lib/dhcpcd \
+		--rundir=/run
+
+# avoid starting the unconfigured service as it may break connectivity
+
+override_dh_installinit:
+	dh_installinit --name=dhcpcd --no-start
+
+override_dh_installsystemd:
+	dh_installsystemd --name=dhcpcd --no-start
